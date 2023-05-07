@@ -35,7 +35,7 @@ ReceiverWindow::~ReceiverWindow() {
   }
   delete timer_check_file_map_;
 
-  delete rmf_;
+  if (rmf_) delete rmf_;
   delete ui_;
 }
 
@@ -48,6 +48,9 @@ void ReceiverWindow::onTryOpenMapFile() {
 }
 
 void ReceiverWindow::onMessageReceived(const QString message) {
+  timer_receive_msg_->stop();
   ui_->receiverListWidget->addItem(message);
   ui_->receiverListWidget->scrollToBottom();
+  ui_->receiverStatusbar->showMessage("Message received!");
+  delete rmf_, rmf_ = nullptr;
 }

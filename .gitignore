@@ -1,3 +1,5 @@
 .vscode
 build
 qtprefixpath.cmake
+*CMakeLists.txt.user
+*.exe

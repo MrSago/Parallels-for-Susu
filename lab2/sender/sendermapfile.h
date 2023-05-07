@@ -18,13 +18,13 @@ class SenderMapFile : public QObject {
   ~SenderMapFile();
 
   WINBOOL sendMessage(const QString& message);
+  WINBOOL checkMessageReceived();
 
  private:
   HANDLE receiver_event_;
   HANDLE sender_event_;
   HANDLE file_map_;
   LPVOID buffer_;
-  bool reserved;
 };
 
 #endif  // SENDERMAPFILE_H

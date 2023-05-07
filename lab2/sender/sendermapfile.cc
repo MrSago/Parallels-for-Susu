@@ -12,7 +12,6 @@ SenderMapFile::SenderMapFile(QObject* parent)
       file_map_(CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0,
                                   BUF_SIZE, FILE_MAP)),
       buffer_(MapViewOfFile(file_map_, FILE_MAP_ALL_ACCESS, 0, 0, BUF_SIZE)),
-      reserved(false),
       QObject{parent} {}
 
 SenderMapFile::~SenderMapFile() {
@@ -27,16 +26,15 @@ WINBOOL SenderMapFile::sendMessage(const QString& message) {
     return false;
   }
 
-  if (!reserved && WaitForSingleObject(receiver_event_, 0) == WAIT_OBJECT_0) {
-    reserved = true;
-  }
+  CopyMemory(buffer_, message.data(),
+             std::min((message.size() + 1) * sizeof(QChar), BUF_SIZE));
 
-  if (reserved) {
-    CopyMemory(buffer_, message.data(),
-               std::min((message.size() + 1) * sizeof(QChar), BUF_SIZE));
-    reserved = false;
-    return SetEvent(sender_event_);
-  }
+  return SetEvent(sender_event_);
+}
 
+WINBOOL SenderMapFile::checkMessageReceived() {
+  if (WaitForSingleObject(receiver_event_, 0) == WAIT_OBJECT_0) {
+    return true;
+  }
   return false;
 }

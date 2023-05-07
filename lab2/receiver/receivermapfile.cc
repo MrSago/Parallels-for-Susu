@@ -6,11 +6,11 @@
 #include <QString>
 
 ReceiverMapFile::ReceiverMapFile(QObject* parent)
-    : QObject{parent},
-      receiver_event_(NULL),
+    : receiver_event_(NULL),
       sender_event_(NULL),
       file_map_(NULL),
-      buffer_(NULL) {}
+      buffer_(NULL),
+      QObject{parent} {}
 
 ReceiverMapFile::~ReceiverMapFile() {
   if (receiver_event_) CloseHandle(receiver_event_);

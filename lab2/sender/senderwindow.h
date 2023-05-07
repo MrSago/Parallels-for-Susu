@@ -2,6 +2,7 @@
 #define SENDERWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
 #include <QWidget>
 
 #include "lab2/sender/sendermapfile.h"
@@ -20,10 +21,12 @@ class SenderWindow : public QMainWindow {
   ~SenderWindow();
 
  private slots:
-  void on_sendButton_clicked();
+  void onSendButtonClicked();
+  void waitMessageReceived();
 
  private:
   Ui::SenderWindow* ui_;
   SenderMapFile* smf_;
+  QTimer* waitReceived;
 };
 #endif  // SENDERWINDOW_H
