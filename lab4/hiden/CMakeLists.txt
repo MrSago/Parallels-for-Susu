@@ -1,0 +1,1 @@
+init_target_lab4(lab4-hiden)
