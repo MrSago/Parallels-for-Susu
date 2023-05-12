@@ -7,6 +7,7 @@
 int main() {
   int k, N;
   scanf("%d%d", &k, &N);
+  if (k > N) k = N;
 
   int sum = 0;
   int count_iterations = (int)ceil((double)N / (double)k);
@@ -20,7 +21,7 @@ int main() {
     start = count_iterations * thread + 1;
     end = count_iterations * (thread + 1) + 1;
 
-    for (i = start; i < end && i <= N; ++i) sum += i;
+    for (i = start; i < end; ++i) sum += i;
 
     printf("[%d] : Sum = %d\n", thread, sum);
   }
