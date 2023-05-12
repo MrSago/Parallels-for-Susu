@@ -1,0 +1,1 @@
+init_target_lab5(lab5-send)
